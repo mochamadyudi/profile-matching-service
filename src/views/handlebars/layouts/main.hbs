@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>{{head.title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <link rel="stylesheet" href="{{host}}/styles/style.css" type="text/css"/>
+    {{#each cssFile}}
+        <link rel="stylesheet" href="{{this}}" type="text/css"/>
+    {{/each}}
+    <script>
+        let __SUBDOMAIN__= "{{head.subdomain}}"
+    </script>
+</head>
+<body class="bg-fixed overflow-x-hidden bg-white w-full ">
+    {{{body}}}
+
+    {{#each jsFile}}
+        <script src="{{this}}"></script>
+    {{/each}}
+</body>
+</html>

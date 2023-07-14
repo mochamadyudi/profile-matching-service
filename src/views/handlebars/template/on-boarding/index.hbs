@@ -1,0 +1,167 @@
+<div class="w-full bg-fixed h-screen flex flex-col overflow-y-hidden" style="background: linear-gradient(90deg, #293C9F 0%, #1B2453 100%);">
+    <div class="min-h-[120px] bg-blue-700 w-full flex items-center relative justify-between gap-4" style="background: linear-gradient(90deg, #293C9F 0%, #1B2453 100%);">
+        <div class="flex items-center gap-2 px-4">
+            <img src="/assets/logo-flight.png" alt="/assets/logo-flight.png" class="h-[40px] object-contain">
+            <h1 class="capitalize text-4xl font-bold text-white tracking-wide ">{{type}}</h1>
+        </div>
+        <div class="flex flex-col justify-end items-end px-4">
+            <p class="text-2xl font-semibold tracking-wide text-white">Wednesday, 22 April 2023</p>
+            <p class="text-4xl font-bold tracking-tight text-white">03:00 PM</p>
+        </div>
+        <div class="absolute bottom-0 w-full">
+            <img src="/assets/backdrop-header.png" alt="/assets/backdrop-header.png" class="w-[calc(100%+100px)]s h-full object-cover">
+        </div>
+    </div>
+
+    <div class="w-full relative flex flex-col xl:flex-row justify-start h-[calc(100%-200px)]">
+        <div class="w-full xl:w-auto xl:min-w-[320px] xl:min-h-[260px] relative" style="background: linear-gradient(90deg, #293C9F 0%, #1B2453 100%);">
+            <img src="/assets/banner-lg.png" alt="/assets/banner-lg.png" class="h-full object-contain hidden xl:block object-top">
+            <img src="/assets/banner-mobile.png" alt="/assets/banner-mobile.png" class="w-full object-cover block xl:hidden">
+        </div>
+        <div class="w-full text-white overflow-y-auto h-full list-disc" style="background: linear-gradient(90deg, #293C9F 0%, #1B2453 100%);">
+
+            <!-- header table -->
+            <div class="w-full grid grid-cols-11 p-4 text-center bg-[#1B2453] h-[80px] sticky top-0 z-[1]">
+                <div class="col-span-3 text-xl font-bold flex items-center justify-center h-full">PENERBANGAN</div>
+                <div class="col-span-2 text-xl font-bold flex items-center justify-center h-full">ESTIMASI</div>
+                <div class="col-span-2 text-xl font-bold flex items-center justify-center h-full">TUJUAN</div>
+                <div class="col-span-2 text-xl font-bold flex items-center justify-center h-full">GATE</div>
+                <div class="col-span-2 text-xl font-bold flex items-center justify-center h-full">STATUS</div>
+            </div>
+
+            <!-- body table -->
+            <!-- overflow-x-hidden overflow-y-auto h-[calc(100%-310px)] border border-red-500 -->
+            <ul class="w-full text-white sticky">
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">2D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">4D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">2D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">4D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">2D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">4D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">2D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">4D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">2D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">4D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">2D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+                <li class=" odd:bg-transparent even:bg-blue-900 w-full grid grid-cols-11 xl:rounded-xl text-center min-h-[80px] ">
+                    <div class="col-span-3 text-xl font-bold h-full flex items-center justify-center">PENERBANGAN</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">03:00 PM</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">JAKARTA</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center bg-[#FFC700] h-full">4D</div>
+                    <div class="col-span-2 text-xl font-bold h-full flex items-center justify-center">LAST CALL</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="h-[80px] bg-white w-full fixed bottom-0">
+        <div class="overflow-x-hidden flex items-center h-full">
+            <div class="animate-marquee whitespace-nowrap ">
+                <span class="mx-4 text-xl">Lorem ipsum dolor sit amet loremi psum dolor sit amet</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    const socket = new WebSocket('ws://localhost:5005');
+
+    socket.addEventListener('open', (event) => {
+        socket.send(JSON.stringify({
+            type:'OPEN'
+        }))
+        console.log('Connected to server');
+    });
+
+
+    function send() {
+        let msg = document.querySelector('[name="testing"]').value
+        socket.send(JSON.stringify({
+            type: "SENDING",
+            message: msg
+        }));
+    }
+
+
+
+
+    socket.addEventListener('message', (event) => {
+        let buf = event?.data;
+        buf = `${buf}`.toString()
+        if (buf && typeof (buf) !== null && buf !== '') {
+            try {
+                buf = JSON.parse(buf);
+            } catch (err) {
+
+            }
+        }
+    });
+</script>
