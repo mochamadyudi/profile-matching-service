@@ -24,7 +24,7 @@ export class RoleService extends Service{
                 subQuery: false,
                 nest: true
             }
-            return await this.list()
+            return await this.list({page,limit})
         }catch (err){
             return [ err , null ]
         }

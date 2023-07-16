@@ -7,10 +7,12 @@ export async function isAuth(req,res,next){
 		if(req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer"){
 			const token = req.headers.authorization.split(" ")[1]
 			let [err, decode] = new JwtToken({token}).decode()
+
 			const [ error, data ] = await new UserService({
 				key:"id",
 				value:decode.userId
 			}).show()
+			console.log({error,data})
 			
 			if(err){
 				return res.status(403).json(new BodyResponse({

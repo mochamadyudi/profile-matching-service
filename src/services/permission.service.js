@@ -25,6 +25,6 @@ export class PermissionService extends Service {
         }
 
 
-        return await this.list()
+        return await this.list({page,limit})
     }
 }

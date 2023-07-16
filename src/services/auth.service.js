@@ -1,12 +1,12 @@
 import {Service} from "@yid/services";
 import {Database} from "../lib/database";
-import {encryptPassword} from "@yid/helpers";
+import {encryptPassword, hashUuid} from "@yid/helpers";
+import moment from "moment/moment";
 
 export class AuthService extends Service{
     constructor(props) {
         super(props);
-        this.schema = Database.users
-        console.log(this.schema, 'THIS SCHEMA')
+        this.schema = Database.user
     }
 
     async signUp(){
@@ -45,6 +45,7 @@ export class AuthService extends Service{
                 Reflect.set(data,'role',dataRole)
                 
             }
+            
             return [ err, data ]
         }catch(err){
             return [ err ,null ]

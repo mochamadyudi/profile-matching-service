@@ -26,7 +26,7 @@ export class CategoryService extends Service{
         }
 
 
-        return await this.list()
+        return await this.list({page,limit})
     }
 
 

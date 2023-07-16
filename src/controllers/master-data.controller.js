@@ -73,27 +73,26 @@ export default class MasterDataController {
 			let condition = {
 				where: {}
 			}
+			let props = {
+				orderBy: req.query?.orderBy ?? "id",
+				query: req.query,
+				condition,
+				type
+			}
 			
 			switch (type){
+				case "category_value":
 				case "category":
-					
 					break;
 				default:
-					Reflect.set(condition,"attributes",['id',['opt_type','type'],['opt_name','identifier'],['opt_value','data'],'created_at','updated_at'])
+					Reflect.set(condition,"attributes",['id',['opt_type','type'],['opt_name','identifier'],['opt_value','data'],'createdAt','updatedAt'])
 					Reflect.set(condition.where,'opt_type', type)
 					if(ObjResolve(req.query,'identifier')){
 						Reflect.set(condition.where,'opt_name',{
 							[Op.in]: Array.isArray(ObjResolve(req.query,'identifier')) ? ObjResolve(req.query,'identifier') : [ ObjResolve(req.query,'identifier') ]
 						})
 					}
-					break;
-			}
-			const [ err , data ] = await new MasterDataService({
-				orderBy: req.query?.orderBy ?? "id",
-				query: req.query,
-				condition,
-				type,
-				callback: function({rows}){
+					Reflect.set(props,"callback",function({rows}){
 					rows.map((child)=> {
 						child = ClearSequel(child)
 						if(typeof(child?.data) !== 'undefined'){
@@ -105,10 +104,10 @@ export default class MasterDataController {
 						}
 						return child
 					})
-				}
-			}).list({
-				...pagination
-			})
+				})
+					break;
+			}
+			const [ err , data ] = await new MasterDataService({...props}).list({...pagination})
 			
 			if (err) {
 				return YidException.BadReq(res, err)
@@ -119,7 +118,7 @@ export default class MasterDataController {
 				})
 			}
 			
-			return YidException.SuccessGetList(res, {data})
+			return YidException.SuccessGetList(res, {data,type})
 			
 		} catch (err) {
 			return YidException.ExceptionsError(res, err)
@@ -139,13 +138,15 @@ export default class MasterDataController {
 			switch (type){
 				case "category_value":
 				case "category":
+					fields = body
 					break;
 				default:
 					Reflect.set(fields,'opt_type',type)
 					Reflect.set(condition?.where, 'opt_type',type)
-					Reflect.set(condition?.where, 'opt_name',fields?.name)
+					Reflect.set(condition?.where, 'opt_name',`${body?.name}`.replace(/ /g,'_').toLowerCase())
 					if(typeof(body?.identifier) !== 'undefined' && body?.identifier !== ''){
 						Reflect.set(fields,'opt_name',body?.identifier)
+						Reflect.set(condition?.where, 'opt_name',body?.identifier)
 					}else{
 						if((findKey(body,['data','name']) || findKey(body,['data','display_name']))){
 							let identifier = `${(findKey(body,['data','name']) || findKey(body,['data','display_name']))}`.toString().toLowerCase().replace(/ /g,'-')
@@ -173,6 +174,7 @@ export default class MasterDataController {
 				default:
 					if(dataShow){
 						const [ err , data ] = await new MasterDataService({
+							type,
 							fields: {
 								opt_value: fields?.opt_value
 							},
@@ -202,6 +204,7 @@ export default class MasterDataController {
 					
 			}
 			
+			console.log({type})
 			const [ err , data ] = await new MasterDataService({
 				type,
 				fields: fields,
@@ -223,10 +226,20 @@ export default class MasterDataController {
 	
 	async show(req, res) {
 		try {
+			let { type,id } = req.params
+			let condition = {
+				where:{}
+			}
+			
+			switch (type){
+				default:
+					Reflect.set(condition.where,req.query?.orderBy ?? "id",id)
+					break;
+			}
 			const [ err , data ] = await new MasterDataService({
-				orderBy: req.query?.orderBy ?? "id",
-				query: req.query,
-			})
+				type,
+				condition
+			}).detail()
 			
 			
 			if (err) {
@@ -237,10 +250,7 @@ export default class MasterDataController {
 					message: "Error: data notfound"
 				})
 			}
-			return YidException.Success(res, {
-				message: "Successfully! Created",
-				data
-			})
+			return YidException.Success(res, {data,type})
 		} catch (err) {
 			return YidException.ExceptionsError(res, err)
 		}

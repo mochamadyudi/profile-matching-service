@@ -10,7 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       travelId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "travel",
+          key: 'id'
+        },
       },
       label: {
         type: Sequelize.STRING

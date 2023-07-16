@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      this.hasOne(models?.user_role,{targetKey: "userId"})
+      this.hasMany(models?.user_criteria,{targetKey: "userId"})
       // define association here
     }
   }
@@ -37,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         attributes.status = "active"
         attributes.createdAt = moment()
         attributes.updatedAt = moment()
+        
       }
     }
   });

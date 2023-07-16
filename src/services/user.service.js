@@ -13,7 +13,13 @@ export default class UserService extends Service{
 				where:  {
 					[this.key] : this.value
 				},
-				attributes: this.attributes ?? ['id','uuid','email','fullName','createdAt',"updatedAt"]
+				attributes: this.attributes ?? ['id','uuid','email','fullName','createdAt',"updatedAt"],
+				include:[
+					{
+						model: Database?.user_role,
+						// attributes: ['id','name','level']
+					}
+				]
 			}
 			return await this.detail();
 		}catch(err){

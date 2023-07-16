@@ -11,13 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.travel, {foreignKey:"travelId"})
+      this.hasOne(models?.user_criteria, {foreignKey:"criteriaId"})
     }
   }
   criteria.init({
     travelId: DataTypes.INTEGER,
     label: DataTypes.STRING,
     description: DataTypes.STRING,
-    value: DataTypes.INTEGER
+    value: DataTypes.INTEGER,
+    isPrimary: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'criteria',

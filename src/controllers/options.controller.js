@@ -15,7 +15,7 @@ export class OptionsController{
             let { id } = req.params
             const [ err , data ] = await new OptionsService({
                 key: req.query?.orderBy ?? "opt_name",
-                value: req.params.id
+                value: id
             }).show()
             
             console.log({data,err})

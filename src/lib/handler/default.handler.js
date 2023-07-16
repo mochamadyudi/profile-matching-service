@@ -99,22 +99,25 @@ const SuccessCreate = (res, { message = 'Ok', data = {} }) => {
     return res.json({ message })
 }
 
-const Success = (res, { message = 'Successfully', data = {} }) => {
+const Success = (res, { message = 'Successfully', data = {},...args }) => {
     res.status(200)
     return res.json(new BodyResponse({
         code:"SUCCESS",
         error: false,
         message,
+        ...args,
         data
+
     }))
 }
 
-const SuccessGetList = (res, { message = 'Successfully get list', data = {} }) => {
+const SuccessGetList = (res, { message = 'Successfully get list', data = {} ,...args}) => {
     res.status(200)
     return res.json(new BodyResponse({
         code: 'SUCCESS_GET_LIST',
         error: false,
         message: message ?? '',
+        ...args,
         ...data
     }))
 }
