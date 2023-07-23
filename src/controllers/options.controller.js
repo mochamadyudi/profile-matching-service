@@ -43,21 +43,51 @@ export class OptionsController{
      */
     static async create(req,res){
         try{
-            const [ err , data ] = await new OptionsService({
-                fields:req.body
-            }).create()
-            if(err){
-                return YidException.BadReq(res,err)
-            }
-            if(!data){
-                return YidException._NotFound(res,{
-                    message:"Error: data notfound"
+            let { opt_name } = req.params
+            Reflect.set(req.body,'opt_name',opt_name)
+            
+            const [ errCheck, dataCheck ] = await new OptionsService({
+                key: 'opt_name',
+                value: opt_name
+            }).detail()
+            if(errCheck) return YidException.BadReq(res,err)
+            if(!dataCheck){
+                const [ err , data ] = await new OptionsService({
+                    fields:req.body
+                }).create()
+                if(err){
+                    return YidException.BadReq(res,err)
+                }
+                if(!data){
+                    return YidException._NotFound(res,{
+                        message:"Error: data notfound"
+                    })
+                }
+                return YidException.Success(res,{
+                    message:"Successfully! Created",
+                    data
+                })
+            }else{
+                const [ err , data ] = await new OptionsService({
+                    fields:req.body,
+                    key:'opt_name',
+                    value:opt_name
+                }).update()
+                if(err){
+                    return YidException.BadReq(res,err)
+                }
+                if(!data){
+                    return YidException._NotFound(res,{
+                        message:"Error: data notfound"
+                    })
+                }
+                return YidException.Success(res,{
+                    message:"Successfully! Updated",
+                    data
                 })
             }
-            return YidException.Success(res,{
-                message:"Successfully! Created",
-                data
-            })
+            
+            
         }catch(err){
             return YidException.ExceptionsError(res,err)
         }

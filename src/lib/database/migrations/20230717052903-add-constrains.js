@@ -3,6 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
     Promise.all([
       await queryInterface.sequelize.transaction(async (transaction)=> {
         await queryInterface.changeColumn('criteria','travelId', {
@@ -10,7 +16,6 @@ module.exports = {
           allowNull: false,
         },{ transaction })
       }),
-      await queryInterface.removeConstraint('criteria','FK_CRITERIA_TRAVEL_ID'),
       await queryInterface.addConstraint('criteria',{
         type: "FOREIGN KEY",
         name: "FK_CRITERIA_TRAVEL_ID",

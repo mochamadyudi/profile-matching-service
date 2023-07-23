@@ -5,6 +5,8 @@ import FlightController from "./flight.controller";
 import {RoleController} from "./role.controller";
 import {CriteriaController} from "./criteria.controller";
 import TravelController from "./travel.controller";
+import GapController from "./gap.controller";
+import {UserController} from "./user.controller";
 
 const Controllers = {
     Auth: AuthController,
@@ -13,7 +15,9 @@ const Controllers = {
     Flight: FlightController,
     Role: RoleController,
     Criteria : CriteriaController,
-    Travel: TravelController
+    Travel: TravelController,
+    Gap: GapController,
+    User: UserController
 }
 
 export default Controllers

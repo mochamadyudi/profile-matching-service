@@ -1,6 +1,7 @@
 import BodyResponse from "../lib/handler/body-response";
-import {JwtToken} from "@yid/helpers";
+import {ClearSequel, DeleteObjKey, JwtToken} from "@yid/helpers";
 import UserService from "../services/user.service";
+import {Database} from "../lib/database";
 
 export async function isAuth(req,res,next){
 	try{
@@ -10,9 +11,29 @@ export async function isAuth(req,res,next){
 
 			const [ error, data ] = await new UserService({
 				key:"id",
-				value:decode.userId
+				value:decode.userId,
+				condition:{
+					include:[
+						{
+							model: Database?.user_role,
+							attributes: ['id','roleId'],
+							include:[
+								{
+									model: Database.role
+								}
+							]
+						}
+					]
+				},
+				callback:(result)=> {
+					result = ClearSequel(result)
+					if(typeof(result?.user_role) !== 'undefined' && typeof(result?.user_role?.role) !== 'undefined'){
+						Reflect.set(result,'role',result?.user_role?.role)
+						DeleteObjKey(result,['user_role'])
+					}
+					console.log({result})
+				}
 			}).show()
-			console.log({error,data})
 			
 			if(err){
 				return res.status(403).json(new BodyResponse({

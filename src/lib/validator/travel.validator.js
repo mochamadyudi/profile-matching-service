@@ -10,6 +10,7 @@ const create = async (req,res,next)=> {
 		category:Joi.array().items(Joi.types().number).required(),
 		criteria: Joi.array()
 			.items(Joi.object({
+				isPrimary: Joi.any().optional(),
 				label: Joi.string().required(),
 				description: Joi.string().required(),
 				value: Joi.number().required()
@@ -18,7 +19,19 @@ const create = async (req,res,next)=> {
 	validator(schema.validate(req.body),res,next)
 }
 
+
+const criteriaAdd = async (req,res,next)=> {
+	const schema = Joi.object({
+		criteria: Joi.array()
+			.items(Joi.object({
+				criteriaId:Joi.any().required(),
+				value: Joi.number().required()
+			}).required()).required()
+	})
+	validator(schema.validate(req.body),res,next)
+}
+
 const TravelValidator = {
-	create,
+	create,criteriaAdd
 }
 export { TravelValidator }

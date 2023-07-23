@@ -136,7 +136,20 @@ export class CriteriaController {
 			let criteria = {
 				model: Database?.criteria,
 				required: true,
-				attributes: ['id','label','description','value']
+				where: {},
+				attributes: ['id','label','description','value','travelId']
+			}
+			
+			if(ObjResolve(req.query,'criteriaId')){
+				Reflect.set(criteria.where,'id',{
+					[Op.in]: Array.isArray(req.query?.criteriaId) ? req.query?.criteriaId : [ req.query?.criteriaId ]
+				})
+			}
+			
+			if(ObjResolve(req.query,'travelId')){
+				Reflect.set(criteria.where,'travelId', {
+					[Op.in]: Array.isArray(req.query?.travelId) ? req.query?.travelId : [ req.query?.travelId]
+				})
 			}
 			condition.include.push(criteria)
 			

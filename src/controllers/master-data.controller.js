@@ -236,7 +236,7 @@ export default class MasterDataController {
 					Reflect.set(condition.where,req.query?.orderBy ?? "id",id)
 					break;
 			}
-			const [ err , data ] = await new MasterDataService({
+			let [ err , data ] = await new MasterDataService({
 				type,
 				condition
 			}).detail()
@@ -250,6 +250,17 @@ export default class MasterDataController {
 					message: "Error: data notfound"
 				})
 			}
+			if(typeof(data?.opt_value) !== 'undefined' && typeof(data?.opt_value) === 'string' && data?.opt_value !== ""){
+				try{
+					data = {
+						...data,
+						...JSON.parse(data.opt_value ?? "{}")
+					}
+				}catch(err){
+				
+				}
+			}
+			console.log({data})
 			return YidException.Success(res, {data,type})
 		} catch (err) {
 			return YidException.ExceptionsError(res, err)
@@ -258,10 +269,11 @@ export default class MasterDataController {
 	
 	async delete(req, res) {
 		try {
-			let { id } = req.params
+			let { identifier,type } = req.params
 			const [ err , data ] = await new MasterDataService({
 				key: "id",
-				value:id
+				type:type,
+				value:identifier
 			}).delete()
 			
 			if (err) {

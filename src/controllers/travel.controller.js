@@ -2,6 +2,7 @@ import {TravelService} from "@yid/services";
 import {YidException} from "@yid/handlers";
 import {Database} from "../lib/database";
 import {ObjResolve} from "@yid/helpers";
+import {Op} from "sequelize";
 
 export default class TravelController {
 	
@@ -25,10 +26,15 @@ export default class TravelController {
 				// required: true,
 				// limit: 10
 			})
+			
+			Reflect.set(condition.where,'deletedAt', {
+				[Op.is]: null
+			})
 			const [ err , data ] = await new TravelService({
 				key: req.query?.orderBy ?? "id",
 				value: id,
-				condition
+				condition,
+				
 			}).detail()
 			
 			console.log({data,err})
@@ -218,8 +224,9 @@ GROUP BY  uc.userId,u.email,travel`,{ raw: false, nest: true})
 		try{
 			const [ err , data] = await new TravelService({
 				key: req.query?.orderBy ?? "id",
+				schema:Database?.travel,
 				value: req.params.id
-			}).delete()
+			}).softDelete()
 			
 			if(err){
 				return YidException.BadReq(res,err)

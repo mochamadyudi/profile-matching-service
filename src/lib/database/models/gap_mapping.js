@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class travel extends Model {
+  class gap_mapping extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.criteria, {foreignKey:"travelId"})
     }
   }
-  travel.init({
-    name: DataTypes.STRING,
-    thumbnail: DataTypes.STRING,
-    description: DataTypes.STRING,
-    location: DataTypes.STRING,
-    deletedAt:DataTypes.DATE,
-    createdAt:DataTypes.DATE,
-    updatedAt:DataTypes.DATE,
+  gap_mapping.init({
+    gap: DataTypes.STRING,
+    weight: DataTypes.FLOAT,
+    description: DataTypes.STRING
   }, {
     sequelize,
     freezeTableName:true,
-    modelName: 'travel',
+    modelName: 'gap_mapping',
   });
-  return travel;
+  return gap_mapping;
 };

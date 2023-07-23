@@ -10,6 +10,8 @@ class Service{
      * @param {(Object)} props.condition
      * @param {Array | string[]} props.attributes
      * @param props.schema
+     * @param {string} props.sql
+     * @param {object | string} props.user
      * @param {(String|Number|Boolean|undefined|null)} props.value
      * @param {String} props.key
      * @param {Function} props.callback
@@ -20,6 +22,8 @@ class Service{
      */
     constructor(props) {
         this.schema = props?.schema ?? undefined
+        this.user = props?.user ?? undefined
+        this.sql = props?.sql ?? undefined
         this._validateSchema();
         this.fields = props?.fields ?? {}
         this.key = props?.key ?? undefined
@@ -285,14 +289,21 @@ class Service{
      * @method softDelete()
      * @description method to softDelete data in the database
      * @description update column deleteAt in the database
-     * @returns {Promise<void>}
+     * @returns {Promise<*[]>}
      */
     async softDelete(){
         try{
+            this.condition = {
+                where:{
+                    [this.key]: this.value,
+                    deletedAt: null
+                }
+            }
             const [ err, data ] = await this.detail();
+            console.log({err,data})
             if(err) return [ err, null]
-            if(!data) return [null, null]
-            let condition = {
+            if(typeof(data) == 'undefined' || typeof(data) !== 'object' && data === null) return [null, null]
+            this.condition = {
                 ...this.condition,
                 where: {
                     ...this.condition.where,
@@ -304,7 +315,7 @@ class Service{
             this.fields = {
                 deletedAt: moment()
             }
-            return await this.schema.update(this.fields,condition)
+            return await this.schema.update(this.fields,this.condition)
                 .then(([_,result])=> {
                     result = ClearSequel(result)
                     this.callback(result)
