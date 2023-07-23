@@ -5,34 +5,34 @@ services:
       - .env
     environment:
       - NODE_ENV=development
-    image: fidsbeexpress:${TAG}
-    container_name: fids-be-express
+    image: skripsi_be:${TAG}
+    container_name: skripsi_express
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5005:5005"
+      - "8000:8000"
   prod:
     env_file:
       - .env
     environment:
       - NODE_ENV=production
-    image: fidsbeexpress:${TAG}-production
-    container_name: fids-be-express
+    image: skripsi_be:${TAG}-production
+    container_name: skripsi_express
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5005:5005"
+      - "8000:8000"
   dev:
     env_file:
       - .env
     environment:
       - NODE_ENV=development
-    image: fidsbeexpress:${TAG}-development
-    container_name: fids-be-express
+    image: skripsi_be:${TAG}-development
+    container_name: skripsi_express
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5005:5005"
+      - "8000:8000"
