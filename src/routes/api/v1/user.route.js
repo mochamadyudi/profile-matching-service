@@ -9,10 +9,6 @@ export default (app)=>{
 	app.get('/user/travel/recommendation', isAuth, Controllers.User.travelRecommendation)
 	app.get('/user/history', isAuth, Controllers.User.history)
 	app.get('/user/history/:id', isAuth, Controllers.User.historyShow)
-	// app.get('/user/history', Controllers.User.list)
-	// app.post('/user/history', Controllers.User.create)
-	// app.patch('/user/history/:id', Controllers.User.update)
-	
 	
 	return app
 }
