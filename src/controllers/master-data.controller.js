@@ -73,7 +73,14 @@ export default class MasterDataController {
 			
 			const pagination = Pagination(req.query)
 			let condition = {
-				where: {}
+				where: {
+					deletedAt: {
+						[Op.is]: null
+					}
+				}
+			}
+			if(typeof(req.query?.deletedAt) === 'string' && req.query?.deletedAt === 'false'){
+				DeleteObjKey(condition.where,['deletedAt'])
 			}
 			let props = {
 				orderBy: req.query?.orderBy ?? "id",
@@ -81,13 +88,9 @@ export default class MasterDataController {
 				condition,
 				type
 			}
-			
 			switch (type){
 				case "category_value":
 				case "category":
-					Reflect.set(condition.where,'deletedAt', {
-						[Op.is]: null
-					})
 					break;
 				default:
 					Reflect.set(condition,"attributes",['id',['opt_type','type'],['opt_name','identifier'],['opt_value','data'],'createdAt','updatedAt'])
@@ -114,6 +117,7 @@ export default class MasterDataController {
 			}
 			const [ err , data ] = await new MasterDataService({...props}).list({...pagination})
 			
+			console.log({data,err})
 			if (err) {
 				return YidException.BadReq(res, err)
 			}
@@ -295,25 +299,27 @@ export default class MasterDataController {
 					message: "Successfully! Deleted",
 					data
 				})
-			}
-			const [ err , data ] = await new MasterDataService({
-				key: "id",
-				type:type,
-				value:identifier
-			}).delete()
-			
-			if (err) {
-				return YidException.BadReq(res, err)
-			}
-			if (!data) {
-				return YidException._NotFound(res, {
-					message: "Error: data notfound"
+			}else{
+				const [ err , data ] = await new MasterDataService({
+					key: "id",
+					type:type,
+					value:identifier
+				}).delete()
+				
+				if (err) {
+					return YidException.BadReq(res, err)
+				}
+				if (!data) {
+					return YidException._NotFound(res, {
+						message: "Error: data notfound"
+					})
+				}
+				return YidException.Success(res, {
+					message: "Successfully! Deleted",
+					data
 				})
 			}
-			return YidException.Success(res, {
-				message: "Successfully! Deleted",
-				data
-			})
+
 		} catch (err) {
 			return YidException.ExceptionsError(res, err)
 		}

@@ -315,6 +315,7 @@ class Service{
             this.fields = {
                 deletedAt: moment()
             }
+            console.log(this.condition)
             return await this.schema.update(this.fields,this.condition)
                 .then(([_,result])=> {
                     result = ClearSequel(result)

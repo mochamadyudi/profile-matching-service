@@ -6,19 +6,14 @@ export default class MasterDataService extends Service{
 		super(props);
 		this.type = props?.type ?? null
 		
-		switch (this.type){
-			case "criteria":
-				this.schema = Database?.master_data ?? undefined
-				break;
-			case "category_value":
-				this.schema = Database?.category_value ?? undefined
-				break;
-			case "category":
-				this.schema = Database?.category ?? undefined
-				break;
-			default:
-				this.schema = Database?.master_data;
-				break;
+		if(this.type === 'criteria'){
+			this.schema = Database?.master_data ?? undefined
+		}else if (this.type === 'category_value'){
+			this.schema = Database?.category_value ?? undefined
+		}else if (this.type === 'category'){
+			this.schema = Database?.category ?? undefined
+		}else{
+			this.schema = Database?.master_data;
 		}
 	}
 	

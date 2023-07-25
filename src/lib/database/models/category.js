@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     slug: DataTypes.STRING,
     color: DataTypes.STRING,
     background: DataTypes.STRING,
-    deletedAt:DataTypes.DATE
+    deletedAt:DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'category',
