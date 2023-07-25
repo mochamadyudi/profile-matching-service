@@ -38,7 +38,6 @@ export default class AuthController {
                 fields: req.body,
                 callback: function(result){
                     Reflect.set(fieldsToken,'userId',result?.id)
-                    
                 }
             }).signIn()
 
@@ -46,7 +45,7 @@ export default class AuthController {
                 return YidException.BadReq(res,err)
             }
             if(!data){
-                return YidException.notFound("User not found")
+                return YidException._NotFound(res,{message:"User not found"})
             }
             
             

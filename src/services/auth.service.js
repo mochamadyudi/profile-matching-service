@@ -1,6 +1,6 @@
 import {Service} from "@yid/services";
 import {Database} from "../lib/database";
-import {encryptPassword, hashUuid} from "@yid/helpers";
+import {encryptPassword, generateRandomString, hashUuid} from "@yid/helpers";
 import moment from "moment/moment";
 
 export class AuthService extends Service{
@@ -16,6 +16,7 @@ export class AuthService extends Service{
                     email: this.fields.email
                 }
             }
+            
             const {hashPassword, salt} = await encryptPassword(this.fields.password)
             
             Reflect.set(this.fields,'password',hashPassword)
@@ -43,9 +44,7 @@ export class AuthService extends Service{
                     return [ new Error(`Error: ${errRole?.message}`), null]
                 }
                 Reflect.set(data,'role',dataRole)
-                
             }
-            
             return [ err, data ]
         }catch(err){
             return [ err ,null ]

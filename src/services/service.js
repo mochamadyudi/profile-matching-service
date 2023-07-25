@@ -2,12 +2,13 @@ import {ClearSequel, ObjResolve} from "@yid/helpers";
 import {YidException} from "@yid/handlers";
 import moment from "moment";
 import {Database} from "../lib/database";
+
+
 class Service{
     /**
-     *
      * @param {(Object| {})} props
      * @param {(Object|String|boolean|Number|false|""|undefined|null)} props.fields
-     * @param {(Object)} props.condition
+     * @param {Object | undefined | string} props.condition
      * @param {Array | string[]} props.attributes
      * @param props.schema
      * @param {string} props.sql
@@ -300,7 +301,6 @@ class Service{
                 }
             }
             const [ err, data ] = await this.detail();
-            console.log({err,data})
             if(err) return [ err, null]
             if(typeof(data) == 'undefined' || typeof(data) !== 'object' && data === null) return [null, null]
             this.condition = {

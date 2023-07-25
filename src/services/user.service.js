@@ -1,6 +1,6 @@
 import {Service} from "./service";
 import {Database} from "../lib/database";
-import {Pagination} from "@yid/helpers";
+import {DeleteObjKey, encryptPassword, isValidPassword, Pagination} from "@yid/helpers";
 import moment from "moment";
 import {Op} from "sequelize";
 
@@ -26,13 +26,13 @@ export default class UserService extends Service {
 	}
 	
 	
-	async travelCreate(){
-		try{
+	async travelCreate() {
+		try {
 			
-			if(this.fields){
-				this.fields = this.fields.criteria.map((child)=> ({
+			if (this.fields) {
+				this.fields = this.fields.criteria.map((child) => ({
 					...child,
-					userId:this.user.id,
+					userId: this.user.id,
 					createdAt: moment().toDate(),
 					updatedAt: moment().toDate()
 				}))
@@ -41,23 +41,24 @@ export default class UserService extends Service {
 			this.condition = {
 				where: {
 					criteriaId: {
-						[Op.in]: this.fields.map((child)=> child?.criteriaId)
+						[Op.in]: this.fields.map((child) => child?.criteriaId)
 					},
 					userId: this.user.id
 					
 				}
 			}
 			
-			const [ err, check] = await this.detail()
-			if(err) return [ err, null ]
-			if(check) return  [ new Error("Error: Can't Add criteria, Please do not enter existing data "), null]
-			console.log({check,err})
-			const data = await this.schema.bulkCreate(this.fields, {returning:true})
-			return [ null, data]
-		}catch(err){
-			return [ err, null ]
+			const [err, check] = await this.detail()
+			if (err) return [err, null]
+			if (check) return [new Error("Error: Can't Add criteria, Please do not enter existing data "), null]
+			console.log({check, err})
+			const data = await this.schema.bulkCreate(this.fields, {returning: true})
+			return [null, data]
+		} catch (err) {
+			return [err, null]
 		}
 	}
+	
 	async travelRecomm() {
 		try {
 			
@@ -123,13 +124,14 @@ ORDER BY :direction
 			
 			const data = await Database.sequelize.query(querySql, {
 				replacements: {
-					id:this.user.id,
-					direction:direction,
-					havingResult:this.query?.min ? parseInt(this.query?.min) : 0,
+					id: this.user.id,
+					direction: direction,
+					havingResult: this.query?.min ? parseInt(this.query?.min) : 0,
 				},
-				raw: false, nest: true})
+				raw: false, nest: true
+			})
 			return [null, data]
-		
+			
 		} catch (err) {
 			return [err, null]
 		}
@@ -253,5 +255,57 @@ ORDER BY tc.travelId ${direction ? direction : "ASC"}
 		}
 	}
 	
+	
+	async updateUser() {
+		try {
+			if (this.fields?.email && this.fields?.email !== this.user.email) {
+				this.key = 'email'
+				this.value = this.fields.email
+				this.condition = {
+					where: {}
+				}
+				const [err, data] = await this.detail()
+				if (data) return [new Error("Email has been Registered!"), null]
+			}
+			this.key = 'id'
+			this.value = this.user.id
+			
+			return await this.update()
+		} catch (err) {
+			return [err, null]
+		}
+	}
+	
+	async updatePassword() {
+		try {
+			this.key = 'id'
+			this.value = this.user.id
+			
+			this.condition = {
+				where: {
+					[this.key]: this.value
+				}
+			}
+			const [errUser, dataUser] = await this.detail()
+			if (!dataUser) return [new Error('Error: User not found'), null]
+			const validate = isValidPassword(this.fields?.oldPassword, dataUser?.password)
+			if (!validate) {
+				return [new Error('Error: Password not Match!'), null]
+			}
+			
+			const {hashPassword, salt} = await encryptPassword(this.fields.password)
+			Reflect.set(this.fields, 'password', hashPassword)
+			Reflect.set(this.fields, 'salt', salt)
+			DeleteObjKey(this.fields, ['oldPassword'])
+			
+			
+			console.log(this.fields, 'FIELDS')
+			
+			
+			return await this.update()
+		} catch (err) {
+			return [err, null]
+		}
+	}
 	
 }

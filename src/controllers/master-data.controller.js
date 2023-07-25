@@ -2,6 +2,8 @@ import {YidException} from "@yid/handlers";
 import MasterDataService from "../services/master-data.service";
 import {ClearSequel, DeleteObjKey, findKey, ObjResolve, Pagination} from "@yid/helpers";
 import {Op} from "sequelize";
+import {CategoryService} from "@yid/services";
+import {Database} from "../lib/database";
 
 export default class MasterDataController {
 	
@@ -83,6 +85,9 @@ export default class MasterDataController {
 			switch (type){
 				case "category_value":
 				case "category":
+					Reflect.set(condition.where,'deletedAt', {
+						[Op.is]: null
+					})
 					break;
 				default:
 					Reflect.set(condition,"attributes",['id',['opt_type','type'],['opt_name','identifier'],['opt_value','data'],'createdAt','updatedAt'])
@@ -270,6 +275,27 @@ export default class MasterDataController {
 	async delete(req, res) {
 		try {
 			let { identifier,type } = req.params
+			
+			if(type === 'category') {
+				const [ err , data ] = await new CategoryService({
+					key: "id",
+					value: identifier,
+					schema: Database?.category,
+				}).softDelete()
+
+				if (err) {
+					return YidException.BadReq(res, err)
+				}
+				if (!data) {
+					return YidException._NotFound(res, {
+						message: "Error: data notfound"
+					})
+				}
+				return YidException.Success(res, {
+					message: "Successfully! Deleted",
+					data
+				})
+			}
 			const [ err , data ] = await new MasterDataService({
 				key: "id",
 				type:type,
@@ -289,6 +315,40 @@ export default class MasterDataController {
 				data
 			})
 		} catch (err) {
+			return YidException.ExceptionsError(res, err)
+		}
+	}
+	
+	
+	/**
+	 * @param req
+	 * @param res
+	 * @returns {Promise<void>}
+	 * @private
+	 */
+	async _deleteCategory(req,res){
+		try{
+			let { identifier } = req.params
+			
+			const [ err , data ] = await new CategoryService({
+				key:req.query?.orderBy ?? "id",
+				value: identifier
+			}).softDelete()
+			console.log({err})
+			if (err) {
+				return YidException.BadReq(res, err)
+			}
+			if (!data) {
+				return YidException._NotFound(res, {
+					message: "Error: data notfound"
+				})
+			}
+			return YidException.Success(res, {
+				message: "Successfully! Deleted",
+				data
+			})
+		}catch(err){
+			console.log({err})
 			return YidException.ExceptionsError(res, err)
 		}
 	}

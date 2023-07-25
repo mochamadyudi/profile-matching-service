@@ -5,7 +5,7 @@ import {Pagination} from "@yid/helpers";
 export class CategoryService extends Service{
     constructor(props) {
         super(props)
-        this.schema = Database.category
+        this.schema = props?.schema ?? Database.category
     }
 
 
@@ -24,10 +24,7 @@ export class CategoryService extends Service{
             subQuery: false,
             nest: true
         }
-
-
         return await this.list({page,limit})
     }
-
 
 }
